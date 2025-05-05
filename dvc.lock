@@ -1,0 +1,106 @@
+schema: '2.0'
+stages:
+  download:
+    cmd: python src/stages/data_download.py
+    deps:
+    - path: src/config.yaml
+      hash: md5
+      md5: c439fb752f919401ec9e851aeeea1876
+      size: 866
+    - path: src/stages/data_download.py
+      hash: md5
+      md5: b2ef7bb40625de06accdc7f6f918f36e
+      size: 458
+    outs:
+    - path: data/student_performance_dataset.csv
+      hash: md5
+      md5: 6fdd547c677abd7c5447feb33da4a6de
+      size: 42347
+  data_clear:
+    cmd: python src/stages/data_clear.py
+    deps:
+    - path: data/student_performance_dataset.csv
+      hash: md5
+      md5: 6fdd547c677abd7c5447feb33da4a6de
+      size: 42347
+    - path: src/config.yaml
+      hash: md5
+      md5: c439fb752f919401ec9e851aeeea1876
+      size: 866
+    - path: src/stages/data_clear.py
+      hash: md5
+      md5: 3024683cd7a6cebe4420bc35dd5543c2
+      size: 1336
+    outs:
+    - path: data/student_performance_clear.csv
+      hash: md5
+      md5: de046ad7fc4d7384cd5258621b7519b8
+      size: 30511
+  data_featurize:
+    cmd: python src/stages/data_featurize.py
+    deps:
+    - path: data/student_performance_clear.csv
+      hash: md5
+      md5: de046ad7fc4d7384cd5258621b7519b8
+      size: 30511
+    - path: src/config.yaml
+      hash: md5
+      md5: c439fb752f919401ec9e851aeeea1876
+      size: 866
+    - path: src/stages/data_featurize.py
+      hash: md5
+      md5: 67219517406185e75da49e09546ba499
+      size: 1028
+    outs:
+    - path: data/student_performance_final.csv
+      hash: md5
+      md5: 89b1feef7fb3b978ef464790ab15ad8a
+      size: 69927
+  data_split:
+    cmd: python src/stages/data_split.py
+    deps:
+    - path: data/student_performance_final.csv
+      hash: md5
+      md5: 89b1feef7fb3b978ef464790ab15ad8a
+      size: 69927
+    - path: src/config.yaml
+      hash: md5
+      md5: c439fb752f919401ec9e851aeeea1876
+      size: 866
+    - path: src/stages/data_split.py
+      hash: md5
+      md5: 4a257e3c7601c7e23c17c56f1bd38bec
+      size: 820
+    outs:
+    - path: data/test_student_performance.csv
+      hash: md5
+      md5: 9708831a0cb632424261a4730da9bea1
+      size: 21201
+    - path: data/train_student_performance.csv
+      hash: md5
+      md5: d697a6bb77aacdf4b55e78c699e37620
+      size: 48834
+  train_model:
+    cmd: python src/stages/train_model.py
+    deps:
+    - path: data/test_student_performance.csv
+      hash: md5
+      md5: 9708831a0cb632424261a4730da9bea1
+      size: 21201
+    - path: data/train_student_performance.csv
+      hash: md5
+      md5: d697a6bb77aacdf4b55e78c699e37620
+      size: 48834
+    - path: src/config.yaml
+      hash: md5
+      md5: c439fb752f919401ec9e851aeeea1876
+      size: 866
+    - path: src/stages/train_model.py
+      hash: md5
+      md5: fe86f7d4710ac3cd71710ffc162378c9
+      size: 2534
+    outs:
+    - path: models/students_performance.joblib
+      hash: md5
+      md5: 469208e1d92de828c043525860c1abc2
+      size: 987

@@ -1,0 +1,23 @@
+data_download:
+  download_path: "https://raw.githubusercontent.com/demirtry/PMO_datasets/refs/heads/main/student_performance_dataset.csv"
+  save_path: "./data/student_performance_dataset.csv"
+data_preprocessing:
+  dataset_start_path: "./data/student_performance_dataset.csv"
+  dataset_target_path: "./data/student_performance_clear.csv"
+data_featurize:
+  dataset_start_path: "./data/student_performance_clear.csv"
+  dataset_target_path: "./data/student_performance_final.csv"
+data_split:
+  test_size: 0.3
+  train_path: "./data/train_student_performance.csv"
+  test_path: "./data/test_student_performance.csv"
+train:
+  cv: 4
+  C: [0.01, 0.1, 1, 10]
+  penalty: ['l1', 'l2']
+  solver: ['liblinear', 'saga']
+  max_iter: [100, 200, 300]
+  model_path: "models/students_performance.joblib"
+test:
+  model_path: "models/students_performance.joblib"
+  

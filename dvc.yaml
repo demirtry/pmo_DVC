@@ -1,0 +1,42 @@
+stages:
+  download:
+    cmd: python src/stages/data_download.py
+    deps:
+    - src/config.yaml
+    - src/stages/data_download.py
+    outs:
+    - data/student_performance_dataset.csv
+  data_clear:
+    cmd: python src/stages/data_clear.py
+    deps:
+    - src/config.yaml
+    - data/student_performance_dataset.csv
+    - src/stages/data_clear.py
+    outs:
+    - data/student_performance_clear.csv
+  data_featurize:
+    cmd: python src/stages/data_featurize.py
+    deps:
+    - data/student_performance_clear.csv
+    - src/config.yaml
+    - src/stages/data_featurize.py
+    outs:
+    - data/student_performance_final.csv
+  data_split:
+    cmd: python src/stages/data_split.py
+    deps:
+    - data/student_performance_final.csv
+    - src/config.yaml
+    - src/stages/data_split.py
+    outs:
+    - data/test_student_performance.csv
+    - data/train_student_performance.csv
+  train_model:
+    cmd: python src/stages/train_model.py
+    deps:
+    - data/test_student_performance.csv
+    - data/train_student_performance.csv
+    - src/config.yaml
+    - src/stages/train_model.py
+    outs:
+    - models/students_performance.joblib
